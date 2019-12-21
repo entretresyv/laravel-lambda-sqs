@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Laravel Lambda and SQS integration
+
+Resources:
+  LaravelQueueFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      ReservedConcurrentExecutions: 10
+      MemorySize: 512
+      CodeUri: ./
+      Handler: public/queue.php
+      Runtime: provided
+      Layers:
+        - 'arn:aws:lambda:eu-west-1:209497400698:layer:php-73:15'
+      Events:
+        JobOnQueue:
+          Type: SQS
+          Properties:
+            BatchSize: 10
+            Enabled: true
+            Queue: !GetAtt LaravelQueue.Arn
+
+  LaravelQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: default-queue
+      VisibilityTimeout: 900

@@ -1,0 +1,9 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "laravel-lambda-sqs"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1vqldkktp7j5f"
+s3_prefix = "laravel-lambda-sqs"
+region = "eu-west-1"
+capabilities = "CAPABILITY_IAM"
